@@ -1,0 +1,73 @@
+{
+  "name": "multiaccount-manager",
+  "version": "1.0.0",
+  "description": "Premium Multi-Account Manager with Fingerprint Isolation",
+  "main": "dist/main/main/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:renderer\" \"npm run dev:main\"",
+    "dev:renderer": "vite",
+    "dev:main": "concurrently \"npx tsc -p tsconfig.main.json --watch\" \"npx wait-on http://localhost:5173 && electron . --dev\"",
+    "build:main": "npx tsc -p tsconfig.main.json",
+    "build:renderer": "vite build",
+    "build": "npx tsc -p tsconfig.main.json && npx vite build",
+    "start": "electron .",
+    "package": "npm run build && npx electron-builder --win",
+    "postinstall": "electron-rebuild -f -w better-sqlite3"
+  },
+  "build": {
+    "appId": "com.booster.multiaccountmanager",
+    "productName": "MultiAccount Manager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "resources/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "extraResources": []
+  },
+  "keywords": [],
+  "author": "Booster",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^12.6.2",
+    "crypto-js": "^4.2.0",
+    "electron-log": "^5.4.3",
+    "firebase": "^12.10.0",
+    "firebase-admin": "^13.7.0",
+    "puppeteer-core": "^24.39.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/crypto-js": "^4.2.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^5.1.4",
+    "concurrently": "^9.2.1",
+    "electron": "^40.8.0",
+    "electron-builder": "^26.0.12",
+    "electron-rebuild": "^3.2.9",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
